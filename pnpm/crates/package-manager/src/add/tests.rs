@@ -203,7 +203,7 @@ async fn add_resolves_package_selectors_concurrently_and_reports_in_selector_ord
             .with_status(200)
             .with_header("content-type", "application/json")
             .with_body(package_body(&package_name, &registry_url))
-            .expect_at_least(1)
+            .expect_at_most(1)
             .create_async()
             .await;
 
