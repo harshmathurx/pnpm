@@ -127,7 +127,7 @@ function buildPkgChoice (outdatedPkg: UpdateChoiceDependency, workspacesEnabled:
   const label = outdatedPkg.packageName
 
   const raw: string[] = [
-    sanitizeCell(label),
+    sanitizeUpdateChoiceText(label),
     outdatedPkg.current ?? '',
     '❯',
     // Not sanitized: `colorizeSemverDiff` puts the highlighting escapes
@@ -135,9 +135,9 @@ function buildPkgChoice (outdatedPkg: UpdateChoiceDependency, workspacesEnabled:
     nextVersion,
   ]
   if (workspacesEnabled) {
-    raw.push(Array.from(workspaces ?? []).map(sanitizeCell).join(', '))
+    raw.push(Array.from(workspaces ?? []).map(sanitizeUpdateChoiceText).join(', '))
   }
-  raw.push(sanitizeCell(getPkgUrl(outdatedPkg)))
+  raw.push(sanitizeUpdateChoiceText(getPkgUrl(outdatedPkg)))
 
   return {
     raw,
@@ -151,7 +151,7 @@ function buildPkgChoice (outdatedPkg: UpdateChoiceDependency, workspacesEnabled:
  * manifests and registry metadata, so an escape sequence there would
  * corrupt the prompt's redraw and a newline would split the row.
  */
-function sanitizeCell (text: string): string {
+export function sanitizeUpdateChoiceText (text: string): string {
   // eslint-disable-next-line no-control-regex
   return text.replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
 }
